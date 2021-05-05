@@ -47,7 +47,7 @@ void ICACHE_FLASH_ATTR user_udp_send_mac(void){
 char DeviceBuffer[40]={0};
 char hwaddr[6];
 wifi_get_macaddr(STATION_IF,hwaddr);
-os_sprintf(DeviceBuffer,"ETC_"MACSTR"\r\n",MAC2STR(hwaddr));
+os_sprintf(DeviceBuffer,"ESP_"MACSTR"\r\n",MAC2STR(hwaddr));
 espconn_sent(&user_udp_espconn,DeviceBuffer,os_strlen(DeviceBuffer));
 }
 

@@ -1,7 +1,7 @@
 /*
  * my_json.c
  *
- *  Created on: 2016Äê9ÔÂ3ÈÕ
+ *  Created on: 2016ï¿½ï¿½9ï¿½ï¿½3ï¿½ï¿½
  *      Author: Administrator
  */
 
@@ -33,7 +33,7 @@ jsonTree_get(struct jsontree_context *js_ctx)
         wifi_get_macaddr(STATION_IF,hwaddr);
     	char DeviceBuffer[12]={0};
     	wifi_get_macaddr(STATION_IF,hwaddr);
-    	os_sprintf(DeviceBuffer,"ETC_"MACSTR,MAC2STR(hwaddr));
+    	os_sprintf(DeviceBuffer,"ESP_%s","34ABE");
     	jsontree_write_string(js_ctx, DeviceBuffer);
 
     } else if (os_strncmp(path, "action", os_strlen("action")) == 0) {
@@ -71,7 +71,7 @@ jsonTree_reportDevInfo_get(struct jsontree_context *js_ctx)
 
         os_bzero(hwaddr,6);
     	wifi_get_macaddr(STATION_IF,hwaddr);
-    	os_sprintf(DeviceBuffer,"ETC_"MACSTR,MAC2STR(hwaddr));
+    	os_sprintf(DeviceBuffer,"ESP_%s","34ABE");
     	jsontree_write_string(js_ctx, DeviceBuffer);
 
     }else if(os_strncmp(path, "msgId", os_strlen("msgId"))==0){
@@ -116,7 +116,7 @@ jsonTree_appResp_get(struct jsontree_context *js_ctx)
         wifi_get_macaddr(STATION_IF,hwaddr);
     	char DeviceBuffer[12]={0};
     	wifi_get_macaddr(STATION_IF,hwaddr);
-    	os_sprintf(DeviceBuffer,"ETC_"MACSTR,MAC2STR(hwaddr));
+    	os_sprintf(DeviceBuffer,"ESP_%s","34ABE");
     	jsontree_write_string(js_ctx, DeviceBuffer);
 
     } else if (os_strncmp(path, "action", os_strlen("action")) == 0) {
@@ -162,7 +162,7 @@ jsonTree_get_Login(struct jsontree_context *js_ctx)
         wifi_get_macaddr(STATION_IF,hwaddr);
     	char DeviceBuffer[12]={0};
     	wifi_get_macaddr(STATION_IF,hwaddr);
-    	os_sprintf(DeviceBuffer,"ETC_"MACSTR,MAC2STR(hwaddr));
+    	os_sprintf(DeviceBuffer,"ESP_%s","34ABE");
     	jsontree_write_string(js_ctx, DeviceBuffer);
 
     }else if(os_strncmp(path, "action", os_strlen("action")) == 0) {
@@ -170,7 +170,7 @@ jsonTree_get_Login(struct jsontree_context *js_ctx)
     }else if(os_strncmp(path, "msgId", os_strlen("msgId"))==0){
     	jsontree_write_int(js_ctx,msgId++);
     }else if(os_strncmp(path, "prodKey", os_strlen("prodKey"))==0){
-    	jsontree_write_string(js_ctx, "bbb775c29abae5235384342d2f67027b");
+    	jsontree_write_string(js_ctx, "e15ecc3ee7ddc4527885a6576410de86");
     }else if(os_strncmp(path, "token", os_strlen("token"))==0){
     	Readflash_token();
     	jsontree_write_string(js_ctx, dev_token);
@@ -290,7 +290,7 @@ char* ICACHE_FLASH_ATTR
 getJsonTree(void)
 {
 
-    os_memset(jsonbuf, 0, LENGTH);      //³õÊ¼»¯×Ö·û´®
+    os_memset(jsonbuf, 0, LENGTH);      //ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½
 	json_ws_send((struct jsontree_value *)&jsonTestTree, "jsonTest", jsonbuf);
 	normal_replace(jsonbuf,"\n","");
 	strcat(jsonbuf,"\n");
@@ -300,7 +300,7 @@ getJsonTree(void)
 char* ICACHE_FLASH_ATTR
 getAppResponse(void)
 {
-    os_memset(jsonbuf, 0, LENGTH);      //³õÊ¼»¯×Ö·û´®
+    os_memset(jsonbuf, 0, LENGTH);      //ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½
 	json_ws_send((struct jsontree_value *)&jsonAppRespTree, "appResp", jsonbuf);
 	normal_replace(jsonbuf,"\n","");
 	strcat(jsonbuf,"\n");
@@ -310,7 +310,7 @@ getAppResponse(void)
 char* ICACHE_FLASH_ATTR
 getReportDevInfo(void)
 {
-    os_memset(jsonbuf, 0, LENGTH);      //³õÊ¼»¯×Ö·û´®
+    os_memset(jsonbuf, 0, LENGTH);      //ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½
 	json_ws_send((struct jsontree_value *)&jsonReportDevInfoTree, "reportDevInfo", jsonbuf);
 	normal_replace(jsonbuf,"\n","");
 	strcat(jsonbuf,"\n");
@@ -321,7 +321,7 @@ getReportDevInfo(void)
 char* ICACHE_FLASH_ATTR
 getLogin(void)
 {
-    os_memset(jsonbuf, 0, LENGTH);      //³õÊ¼»¯×Ö·û´®
+    os_memset(jsonbuf, 0, LENGTH);      //ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½
 	json_ws_send((struct jsontree_value *)&jsonLoginTree, "Login", jsonbuf);
 	normal_replace(jsonbuf,"\n","");
 	strcat(jsonbuf,"\n");
@@ -331,7 +331,7 @@ getLogin(void)
 char* ICACHE_FLASH_ATTR
 getHeartBeat(void)
 {
-    os_memset(jsonbuf, 0, LENGTH);      //³õÊ¼»¯×Ö·û´®
+    os_memset(jsonbuf, 0, LENGTH);      //ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½
 	json_ws_send((struct jsontree_value *)&jsonHeartbeatTree, "HeartBeat", jsonbuf);
 	normal_replace(jsonbuf,"\n","");
 	strcat(jsonbuf,"\n");
@@ -344,28 +344,28 @@ jsonTree_set(struct jsontree_context *js_ctx, struct jsonparse_state *parser)
 {
     int type;
     while ((type = jsonparse_next(parser)) != 0) {
-    	//Èç¹ûÊÇKEYÀàÐÍ
+    	//ï¿½ï¿½ï¿½ï¿½ï¿½KEYï¿½ï¿½ï¿½ï¿½
         if (type == JSON_TYPE_PAIR_NAME) {
             char buffer[64];
             os_bzero(buffer, 64);
 
             if (jsonparse_strcmp_value(parser, "action") == 0) {
-                jsonparse_next(parser);	//·µ»ØµÄÊÇÃ°ºÅ×Ö·û
-                type = jsonparse_next(parser);	//·µ»ØµÄÊÇË«ÒýºÅ×Ö·û
+                jsonparse_next(parser);	//ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½Ã°ï¿½ï¿½ï¿½Ö·ï¿½
+                type = jsonparse_next(parser);	//ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½Ë«ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½
                 os_printf("action Value type = %c\n", type);	// = "
 
-                //Èç¹ûValueÊÇ×Ö·û´®ÀàÐÍ£¬Ôò¶ÁÈ¡Êý¾Ýµ½buffer
+                //ï¿½ï¿½ï¿½Valueï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í£ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½Ýµï¿½buffer
                 if (JSON_TYPE_STRING == type){	//#define JSON_TYPE_STRING '"'
                 	jsonparse_copy_value(parser, buffer, sizeof(buffer));
                 	os_printf("action Value = %s\n", buffer);
                 }
 
             }else if (jsonparse_strcmp_value(parser, "msgId") == 0) {
-                jsonparse_next(parser);	//·µ»ØµÄÊÇÃ°ºÅ×Ö·û
-                type = jsonparse_next(parser);	//·µ»ØµÄÊÇË«ÒýºÅ×Ö·û
+                jsonparse_next(parser);	//ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½Ã°ï¿½ï¿½ï¿½Ö·ï¿½
+                type = jsonparse_next(parser);	//ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½Ë«ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½
                 os_printf("action msgId type = %c\n", type);	// = "
 
-                //Èç¹ûValueÊÇ×Ö·û´®ÀàÐÍ£¬Ôò¶ÁÈ¡Êý¾Ýµ½buffer
+                //ï¿½ï¿½ï¿½Valueï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í£ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½Ýµï¿½buffer
                 if (JSON_TYPE_NUMBER == type){	//#define JSON_TYPE_STRING '"'
 
                 	recvtcpAppMsgId = jsonparse_get_value_as_int(parser);
@@ -380,7 +380,7 @@ jsonTree_set(struct jsontree_context *js_ctx, struct jsonparse_state *parser)
 
 
                 os_printf("Integer Value type = %c\n", type);	// = 0
-                //Èç¹ûValueÊÇÊýÖµÀàÐÍ
+                //ï¿½ï¿½ï¿½Valueï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½
                 if(JSON_TYPE_NUMBER == type){	//#define JSON_TYPE_NUMBER '0'
                 	//jsonparse_copy_value(parser, buffer, sizeof(buffer));
                 	int num = 0;
@@ -388,31 +388,31 @@ jsonTree_set(struct jsontree_context *js_ctx, struct jsonparse_state *parser)
                 	os_printf("Integer Value = %d\n", num);		// = 1
                 }
             } else if (jsonparse_strcmp_value(parser, "Array") == 0) {
-                jsonparse_next(parser);	//Ìø¹ýÃ°ºÅ
+                jsonparse_next(parser);	//ï¿½ï¿½ï¿½ï¿½Ã°ï¿½ï¿½
                 type = jsonparse_next(parser);
                 os_printf("Array Value type = %c\n", type);		// = [
 
-                //Èç¹ûValueÊÇÊý×éÀàÐÍ
+                //ï¿½ï¿½ï¿½Valueï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 if(JSON_TYPE_ARRAY == type){	//#define JSON_TYPE_ARRAY '['
                 	//jsonparse_copy_value(parser, buffer, sizeof(buffer));
                 	int length = jsonparse_get_len(parser);
-                	os_printf("Array Length = %d\n", length);	//= 5, Êý¾ÝÊÇ[0,1,2]£¬¿ÉÄÜ°Ñ¶ººÅÒ²ËãÔÚÄÚ
+                	os_printf("Array Length = %d\n", length);	//= 5, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[0,1,2]ï¿½ï¿½ï¿½ï¿½ï¿½Ü°Ñ¶ï¿½ï¿½ï¿½Ò²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
                 	int i;
                 	int num = 100;
-                	//Ñ­»·¶ÁÈ¡Êý×éµÄÊý¾Ý
+                	//Ñ­ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 	for(i=0; i<length; i++){
                 		type = jsonparse_next(parser);
-                		// Èç¹ûÊÇ¶ººÅ£¬ÔòÖ±½Ó´òÓ¡, Èç¹ûÊÇÊýÖµÔò´òÓ¡0
+                		// ï¿½ï¿½ï¿½ï¿½Ç¶ï¿½ï¿½Å£ï¿½ï¿½ï¿½Ö±ï¿½Ó´ï¿½Ó¡, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½Ó¡0
                 		os_printf("Array[%d] type = %c ", i, type);
 
-                		//Èç¹ûÊÇÊýÖµÀàÐÍ£¬Ôò×ª»»³Éint²¢´òÓ¡³öÀ´
+                		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½Í£ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½intï¿½ï¿½ï¿½ï¿½Ó¡ï¿½ï¿½ï¿½ï¿½
                 		if(JSON_TYPE_NUMBER==type){
                         	num = jsonparse_get_value_as_int(parser);
                         	os_printf("Array[%d] = %d\n", i, num);
                 		}
-                		//ºóÃæ¿ÉÒÔÌí¼Óelse ifÅÐ¶ÏÊÇ·ñÊÇÆäËûÀàÐÍ
-                		//±ÈÈç else if(JSON_TYPE_OBJECT==type),ÅÐ¶ÏÊÇ·ñÊÇJson¶ÔÏó
+                		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½else ifï¿½Ð¶ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+                		//ï¿½ï¿½ï¿½ï¿½ else if(JSON_TYPE_OBJECT==type),ï¿½Ð¶ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Jsonï¿½ï¿½ï¿½ï¿½
                 		else{
                 			os_printf("\n");
                 		}
@@ -422,7 +422,7 @@ jsonTree_set(struct jsontree_context *js_ctx, struct jsonparse_state *parser)
 #endif
 #if 1
             else if (jsonparse_strcmp_value(parser, "params") == 0) {
-                jsonparse_next(parser);	//Ìø¹ýÃ°ºÅ
+                jsonparse_next(parser);	//ï¿½ï¿½ï¿½ï¿½Ã°ï¿½ï¿½
                 type = jsonparse_next(parser);
                 os_printf("params Value type = %c\n", type);		// = {
 
@@ -434,7 +434,7 @@ jsonTree_set(struct jsontree_context *js_ctx, struct jsonparse_state *parser)
                 	//jsonparse_copy_value(parser, temp, 128);
                 	//os_printf("JsonObject Value = %s\n", temp);
 
-                	//Ñ­»·¶ÁÈ¡Êý¾Ý
+                	//Ñ­ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
                 	//int i = 0;
                 	//for(i=0; i<length; i++){
                 	while(type != '}'){
@@ -444,7 +444,7 @@ jsonTree_set(struct jsontree_context *js_ctx, struct jsonparse_state *parser)
                 		//os_memset(temp, 0, 128);
                     	//jsonparse_copy_value(parser, temp, 128);
                     	//os_printf("JsonObject Value = %s\n", temp);
-                		//¶ÁÈ¡µÚ¶þ²ãµÄJson¶ÔÏóµÄÊý¾Ý
+                		//ï¿½ï¿½È¡ï¿½Ú¶ï¿½ï¿½ï¿½ï¿½Jsonï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 		if(!flag_end){
                         	jsonObject_set(parser);
                 		}else{
@@ -475,24 +475,24 @@ jsonObject_set(struct jsonparse_state *parser)
 	int i;
 	os_bzero(buffer, 64);
 	os_bzero(binType, 2);
-	//Èç¹ûÊÇKEYÀàÐÍ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½KEYï¿½ï¿½ï¿½ï¿½
 	if (vtype == JSON_TYPE_PAIR_NAME) {
 	   if (jsonparse_strcmp_value(parser, "devTid") == 0) {
-			jsonparse_next(parser);	//·µ»ØµÄÊÇÃ°ºÅ×Ö·û
-			type = jsonparse_next(parser);	//·µ»ØµÄÊÇË«ÒýºÅ×Ö·û
+			jsonparse_next(parser);	//ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½Ã°ï¿½ï¿½ï¿½Ö·ï¿½
+			type = jsonparse_next(parser);	//ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½Ë«ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½
 			//os_printf("jsonObject String Value type = %c\n", type);	// = "
 
-			//Èç¹ûValueÊÇ×Ö·û´®ÀàÐÍ£¬Ôò¶ÁÈ¡Êý¾Ýµ½buffer
+			//ï¿½ï¿½ï¿½Valueï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í£ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½Ýµï¿½buffer
 			if (JSON_TYPE_STRING == type){	//#define JSON_TYPE_STRING '"'
 				jsonparse_copy_value(parser, buffer, sizeof(buffer));
 				os_printf("devTid  Value = %s\n", buffer);
 			}
 
 		}else if(jsonparse_strcmp_value(parser,"appTid")==0){
-			jsonparse_next(parser);	//·µ»ØµÄÊÇÃ°ºÅ×Ö·û
-			type = jsonparse_next(parser);	//·µ»ØµÄÊÇË«ÒýºÅ×Ö·û
+			jsonparse_next(parser);	//ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½Ã°ï¿½ï¿½ï¿½Ö·ï¿½
+			type = jsonparse_next(parser);	//ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½Ë«ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½
 
-			//Èç¹ûValueÊÇ×Ö·û´®ÀàÐÍ£¬Ôò¶ÁÈ¡Êý¾Ýµ½buffer
+			//ï¿½ï¿½ï¿½Valueï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í£ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½Ýµï¿½buffer
 			if (JSON_TYPE_STRING == type){	//#define JSON_TYPE_STRING '"'
 				jsonparse_copy_value(parser, buffer, sizeof(buffer));
 				os_printf("appTid  Value = %s\n", buffer);
@@ -503,7 +503,7 @@ jsonObject_set(struct jsonparse_state *parser)
 			jsonparse_next(parser);
 			type = jsonparse_next(parser);
 			//os_printf("jsonObject Integer Value type = %c\n", type);	// = 0
-			//Èç¹ûValueÊÇÊýÖµÀàÐÍ
+			//ï¿½ï¿½ï¿½Valueï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½
 			if(JSON_TYPE_OBJECT == type){
 				//jsonparse_copy_value(parser, buffer, sizeof(buffer));
 				//os_printf("buffer = %s\n", buffer);
@@ -511,22 +511,22 @@ jsonObject_set(struct jsonparse_state *parser)
             	int vlen = parser->vlen;
 
 
-            	//Ñ­»·¶ÁÈ¡Json¶ÔÏóÊý¾Ý
+            	//Ñ­ï¿½ï¿½ï¿½ï¿½È¡Jsonï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 				//for(i=0; i<length; i++){
-				while(type != '}'){	//ÓÃ'}'ÅÐ¶ÏÊÇ·ñ´ïµ½¶þ¼¶ObjectÄ©Î²
+				while(type != '}'){	//ï¿½ï¿½'}'ï¿½Ð¶ï¿½ï¿½Ç·ï¿½ïµ½ï¿½ï¿½ï¿½ï¿½ObjectÄ©Î²
 
 					type = jsonparse_next(parser);
 
 
-					//Èç¹ûÊÇKEYÀàÐÍ
+					//ï¿½ï¿½ï¿½ï¿½ï¿½KEYï¿½ï¿½ï¿½ï¿½
 					if (type == JSON_TYPE_PAIR_NAME) {
 					   if (jsonparse_strcmp_value(parser, "cmdId") == 0) {
-							jsonparse_next(parser);	//·µ»ØµÄÊÇÃ°ºÅ×Ö·û
-							type = jsonparse_next(parser);	//·µ»ØµÄÊÇË«ÒýºÅ×Ö·û
+							jsonparse_next(parser);	//ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½Ã°ï¿½ï¿½ï¿½Ö·ï¿½
+							type = jsonparse_next(parser);	//ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½Ë«ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½
 							//os_printf("K1 Value type = %c\n", type);	// = "
 
-							//Èç¹ûValueÊÇ×Ö·û´®ÀàÐÍ£¬Ôò¶ÁÈ¡Êý¾Ýµ½buffer
+							//ï¿½ï¿½ï¿½Valueï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í£ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½Ýµï¿½buffer
 							if (JSON_TYPE_NUMBER == type){	//#define JSON_TYPE_STRING '"'
 
 			                	int num = 0;
@@ -535,10 +535,10 @@ jsonObject_set(struct jsonparse_state *parser)
 
 							}
 						}else if(jsonparse_strcmp_value(parser, "raw") == 0){
-							jsonparse_next(parser);	//·µ»ØµÄÊÇÃ°ºÅ×Ö·û
-							type = jsonparse_next(parser);	//·µ»ØµÄÊÇË«ÒýºÅ×Ö·û
+							jsonparse_next(parser);	//ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½Ã°ï¿½ï¿½ï¿½Ö·ï¿½
+							type = jsonparse_next(parser);	//ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½Ë«ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½
 
-							//Èç¹ûValueÊÇ×Ö·û´®ÀàÐÍ£¬Ôò¶ÁÈ¡Êý¾Ýµ½buffer
+							//ï¿½ï¿½ï¿½Valueï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í£ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½Ýµï¿½buffer
 							if (JSON_TYPE_STRING == type){	//#define JSON_TYPE_STRING '"'
 
 								jsonparse_copy_value(parser, buffer, sizeof(buffer));
@@ -592,7 +592,7 @@ jsonObject_set(struct jsonparse_state *parser)
 			type = jsonparse_next(parser);
 			if(JSON_TYPE_STRING == type){
 				jsonparse_copy_value(parser, upgradebinUrl, sizeof(upgradebinUrl));
-            	os_printf("ÏÂÔØµÄbinµØÖ·:%s",upgradebinUrl);
+            	os_printf("ï¿½ï¿½ï¿½Øµï¿½binï¿½ï¿½Ö·:%s",upgradebinUrl);
 			}
 
 		}else if(jsonparse_strcmp_value(parser, "binType") == 0){
@@ -636,10 +636,10 @@ setJsonTree(char *json)
 
 
 /**
- * Í³¼ÆkeyÔÚdataÖÐ³öÏÖµÄ´ÎÊý
- * @param data ´ý²éÕÒµÄ×Ö·û´®
- * @param key  Òª²éÕÒµÄ×Ö·û´®
- * @return keyÔÚdataÖÐ³öÏÖµÄ´ÎÊý
+ * Í³ï¿½ï¿½keyï¿½ï¿½dataï¿½Ð³ï¿½ï¿½ÖµÄ´ï¿½ï¿½ï¿½
+ * @param data ï¿½ï¿½ï¿½ï¿½ï¿½Òµï¿½ï¿½Ö·ï¿½ï¿½ï¿½
+ * @param key  Òªï¿½ï¿½ï¿½Òµï¿½ï¿½Ö·ï¿½ï¿½ï¿½
+ * @return keyï¿½ï¿½dataï¿½Ð³ï¿½ï¿½ÖµÄ´ï¿½ï¿½ï¿½
  */
 int ICACHE_FLASH_ATTR _count_string(char *data, char *key)
 {
@@ -654,13 +654,13 @@ int ICACHE_FLASH_ATTR _count_string(char *data, char *key)
 }
 
 /**
- * ½«dataÖÐµÄrep×Ö·û´®Ìæ»»³Éto×Ö·û´®£¬ÒÔ¶¯Ì¬·ÖÅäÄÚ´æ·½Ê½·µ»ØÐÂ×Ö·û´®
- * Õâ¸öº¯Êý²»ÐèÒª±£Ö¤dataÄÜ±£Ö¤ÈÝÁ¿¡£
- * @param data ´ýÌæ»»Ä³Ð©×Ö·û´®µÄÊý¾Ý
- * @param rep  ´ýÌæ»»µÄ×Ö·û´®
- * @param to   Ìæ»»³ÉµÄ×Ö·û´®
- * @param free_data ²»Îª0Ê±ÒªÊÍ·ÅdataµÄÄÚ´æ
- * @return ·µ»ØÐÂ·ÖÅäÄÚ´æµÄÌæ»»Íê³ÉµÄ×Ö·û´®£¬×¢ÒâÊÍ·Å¡£
+ * ï¿½ï¿½dataï¿½Ðµï¿½repï¿½Ö·ï¿½ï¿½ï¿½ï¿½æ»»ï¿½ï¿½toï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¶ï¿½Ì¬ï¿½ï¿½ï¿½ï¿½ï¿½Ú´æ·½Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½Ö¤dataï¿½Ü±ï¿½Ö¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ * @param data ï¿½ï¿½ï¿½æ»»Ä³Ð©ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ * @param rep  ï¿½ï¿½ï¿½æ»»ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½
+ * @param to   ï¿½æ»»ï¿½Éµï¿½ï¿½Ö·ï¿½ï¿½ï¿½
+ * @param free_data ï¿½ï¿½Îª0Ê±Òªï¿½Í·ï¿½dataï¿½ï¿½ï¿½Ú´ï¿½
+ * @return ï¿½ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½Ú´ï¿½ï¿½ï¿½æ»»ï¿½ï¿½Éµï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½×¢ï¿½ï¿½ï¿½Í·Å¡ï¿½
  */
 char ICACHE_FLASH_ATTR *malloc_replace(char *data, char *rep, char *to, int free_data)
 {
@@ -692,12 +692,12 @@ char ICACHE_FLASH_ATTR *malloc_replace(char *data, char *rep, char *to, int free
 }
 
 /**
- * ½«dataÖÐµÄrep×Ö·û´®Ìæ»»³Éto×Ö·û´®
- * ×¢Òâ±£Ö¤data¿Õ¼ä×ã¹»Ìæ»»Íê³ÉºóµÄ×Ö·û´®³¤¶È
- * @param data ´ýÌæ»»Ä³Ð©×Ö·û´®µÄÊý¾Ý
- * @param rep  ´ýÌæ»»µÄ×Ö·û´®
- * @param to   Ìæ»»³ÉµÄ×Ö·û´®
- * @return ÎÞ
+ * ï¿½ï¿½dataï¿½Ðµï¿½repï¿½Ö·ï¿½ï¿½ï¿½ï¿½æ»»ï¿½ï¿½toï¿½Ö·ï¿½ï¿½ï¿½
+ * ×¢ï¿½â±£Ö¤dataï¿½Õ¼ï¿½ï¿½ã¹»ï¿½æ»»ï¿½ï¿½Éºï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ * @param data ï¿½ï¿½ï¿½æ»»Ä³Ð©ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ * @param rep  ï¿½ï¿½ï¿½æ»»ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½
+ * @param to   ï¿½æ»»ï¿½Éµï¿½ï¿½Ö·ï¿½ï¿½ï¿½
+ * @return ï¿½ï¿½
  */
 void ICACHE_FLASH_ATTR normal_replace(char *data, char *rep, char *to)
 {
