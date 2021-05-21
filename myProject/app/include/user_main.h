@@ -1,7 +1,7 @@
 /*
  * user_main.h
  *
- *  Created on: 2017Äê4ÔÂ27ÈÕ
+ *  Created on: 2017ï¿½ï¿½4ï¿½ï¿½27ï¿½ï¿½
  *      Author: xuejunjun
  */
 
@@ -19,7 +19,7 @@
 
 ETSTimer connect_timer;
 ETSTimer heartbeat_timer;
-
+ETSTimer sendInfo_timer;
 
 extern void ICACHE_FLASH_ATTR smart_config(void);
 extern void ICACHE_FLASH_ATTR uart_test_rx(void);

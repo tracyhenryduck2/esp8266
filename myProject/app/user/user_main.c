@@ -1,7 +1,7 @@
 /*
  * user_main.c
  *
- *  Created on: 2015Äê7ÔÂ13ÈÕ
+ *  Created on: 2015ï¿½ï¿½7ï¿½ï¿½13ï¿½ï¿½
  *      Author: Administrator
  */
 #include "driver/uart.h"
@@ -28,7 +28,7 @@ static uint8 count=0;
 //}else{
 //	if(count_sntp>=0x7){
 //		count_sntp = 0;
-//		os_printf("sntp»ñÈ¡½áÊø");
+//		os_printf("sntpï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½");
 //	return;
 //	}
 //
@@ -58,6 +58,15 @@ os_timer_disarm(&heartbeat_timer);
   Readflash_bindkey();
 }
 
+void ICACHE_FLASH_ATTR SendInfo(void *arg){
+    char *ds;
+    os_timer_disarm(&sendInfo_timer);
+      ds =getDevSendTree();
+  os_printf("devSend:%s",ds);
+  espconn_sent(&user_tcp_conn,ds,strlen(ds));
+  os_free(ds);
+  os_timer_arm(&sendInfo_timer,15000,NULL);
+}
 
 
 void ICACHE_FLASH_ATTR Wifi_conned(void *arg){
@@ -83,16 +92,19 @@ espconn_create(&user_udp_espconn);
 //os_timer_arm(&sntp_timer,2000,NULL);
 
 struct ip_info info;
-const char remote_ip[4]={106,75,138,150};//hekr·þÎñÆ÷
+const char remote_ip[4]={106,75,138,150};//hekrï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 wifi_get_ip_info(STATION_IF,&info);
 my_station_init((struct ip_addr *)remote_ip,&info.ip,83);
 os_timer_setfn(&heartbeat_timer,HeartBeat,NULL);
 os_timer_arm(&heartbeat_timer,2000,NULL);
+
+os_timer_setfn(&sendInfo_timer,SendInfo,NULL);
+os_timer_arm(&sendInfo_timer,10111,NULL);
 return;
 }else{
 if(count>=0x7){
 	count = 0;
-os_printf("Wifi connect fail£¡");
+os_printf("Wifi connect failï¿½ï¿½");
 return;
 }
 }

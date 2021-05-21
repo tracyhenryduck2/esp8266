@@ -1,10 +1,15 @@
 /*
  * my_json.c
  *
- *  Created on: 2016��9��3��
+ *  Created on: 2021/05/21
  *      Author: Administrator
  */
-
+#define JSONTEST "jsonTest"
+#define DEVSEND "DEVSEND"
+#define APPRESP "appResp"
+#define LOGIN "Login"
+#define HEARTBEAT "HeartBeat"
+#define REPORTDEVINFO "reportDevInfo"
 
 #include "resolve_json.h"
 
@@ -54,6 +59,43 @@ jsonTree_get(struct jsontree_context *js_ctx)
     	jsontree_write_string(js_ctx, length_data);
       	jsontree_write_atom(js_ctx, "}");
 
+    }
+
+
+    return 0;
+}
+
+LOCAL int ICACHE_FLASH_ATTR
+jsonTree_devSend_get(struct jsontree_context *js_ctx)
+{
+    const char *path = jsontree_path_name(js_ctx, js_ctx->depth - 1);
+
+
+    if (os_strncmp(path, "devTid", os_strlen("devTid")) == 0) {
+
+        char hwaddr[6];
+        os_bzero(hwaddr,6);
+        wifi_get_macaddr(STATION_IF,hwaddr);
+    	char DeviceBuffer[12]={0};
+    	wifi_get_macaddr(STATION_IF,hwaddr);
+    	os_sprintf(DeviceBuffer,"ESP_%s","34ABE");
+    	jsontree_write_string(js_ctx, DeviceBuffer);
+
+    } else if (os_strncmp(path, "action", os_strlen("action")) == 0) {
+    	  	jsontree_write_string(js_ctx, "devSend");
+    }else if(os_strncmp(path, "msgId", os_strlen("msgId"))==0){
+
+    	jsontree_write_int(js_ctx,msgId++);
+
+    }else if(os_strncmp(path, "appTid", os_strlen("appTid"))==0){
+
+    	jsontree_write_atom(js_ctx, "[");
+    	jsontree_write_atom(js_ctx, "]");
+
+    }else if(os_strncmp(path, "vol", os_strlen("vol"))==0){
+    	jsontree_write_int(js_ctx,167);
+    }else if(os_strncmp(path, "cur", os_strlen("cur"))==0){
+    	jsontree_write_int(js_ctx,167);
     }
 
 
@@ -211,7 +253,7 @@ JSONTREE_OBJECT(jsonReportDevInfoTrees,
 				JSONTREE_PAIR("params", &jsonReportDevInfoObject));
 
 JSONTREE_OBJECT(jsonReportDevInfoTree,
-                JSONTREE_PAIR("reportDevInfo", &jsonReportDevInfoTrees));
+                JSONTREE_PAIR(REPORTDEVINFO, &jsonReportDevInfoTrees));
 
 //============================
 LOCAL struct jsontree_callback jsonCallback =
@@ -228,7 +270,7 @@ JSONTREE_OBJECT(jsonTestTrees,
 				JSONTREE_PAIR("params", &jsonObject));
 
 JSONTREE_OBJECT(jsonTestTree,
-                JSONTREE_PAIR("jsonTest", &jsonTestTrees));
+                JSONTREE_PAIR(JSONTEST, &jsonTestTrees));
 
 
 //============================
@@ -249,11 +291,33 @@ JSONTREE_OBJECT(jsonAppRespTrees,
 				JSONTREE_PAIR("params", &jsonAppObject));
 
 JSONTREE_OBJECT(jsonAppRespTree,
-                JSONTREE_PAIR("appResp", &jsonAppRespTrees));
+                JSONTREE_PAIR(APPRESP, &jsonAppRespTrees));
 
 //============================
 
+LOCAL struct jsontree_callback jsondevSendCallback = 
+JSONTREE_CALLBACK(jsonTree_devSend_get,NULL);
 
+
+JSONTREE_OBJECT(jsonObject2,
+                JSONTREE_PAIR("vol", &jsonAppCallback),
+		         JSONTREE_PAIR("cur", &jsonAppCallback));
+JSONTREE_OBJECT(jsonADevSendTrees2,
+                JSONTREE_PAIR("devTid", &jsonAppCallback),
+		         JSONTREE_PAIR("ctrlKey", &jsonAppCallback),
+                JSONTREE_PAIR("appTid", &jsonAppCallback),
+				JSONTREE_PAIR("data", &jsonObject2));
+JSONTREE_OBJECT(jsonDevSendTrees,
+                JSONTREE_PAIR("msgId", &jsonAppCallback),
+                JSONTREE_PAIR("action", &jsonAppCallback),
+                JSONTREE_PAIR("code", &jsonAppCallback),
+                JSONTREE_PAIR("desc", &jsonAppCallback),
+				JSONTREE_PAIR("params", &jsonADevSendTrees2));
+
+JSONTREE_OBJECT(jsonDevSendTree,
+                JSONTREE_PAIR(DEVSEND, &jsonDevSendTrees));
+
+//============================
 
 
 LOCAL struct jsontree_callback jsonLoginCallback =
@@ -270,7 +334,7 @@ JSONTREE_OBJECT(jsonLoginTrees,
 				JSONTREE_PAIR("params", &jsonLoginObject));
 
 JSONTREE_OBJECT(jsonLoginTree,
-                JSONTREE_PAIR("Login", &jsonLoginTrees));
+                JSONTREE_PAIR(LOGIN, &jsonLoginTrees));
 
 
 LOCAL struct jsontree_callback jsonHeatbeatCallback =
@@ -281,7 +345,7 @@ JSONTREE_OBJECT(jsonHeartbeatTrees,
                 JSONTREE_PAIR("action", &jsonHeatbeatCallback));
 
 JSONTREE_OBJECT(jsonHeartbeatTree,
-                JSONTREE_PAIR("HeartBeat", &jsonHeartbeatTrees));
+                JSONTREE_PAIR(HEARTBEAT, &jsonHeartbeatTrees));
 
 
 #define LENGTH 512
@@ -291,7 +355,18 @@ getJsonTree(void)
 {
 
     os_memset(jsonbuf, 0, LENGTH);      //��ʼ���ַ���
-	json_ws_send((struct jsontree_value *)&jsonTestTree, "jsonTest", jsonbuf);
+	json_ws_send((struct jsontree_value *)&jsonTestTree, JSONTEST, jsonbuf);
+	normal_replace(jsonbuf,"\n","");
+	strcat(jsonbuf,"\n");
+	return jsonbuf;
+}
+
+char* ICACHE_FLASH_ATTR
+getDevSendTree(void)
+{
+
+    os_memset(jsonbuf, 0, LENGTH);      //主动发送数据定义
+	json_ws_send((struct jsontree_value *)&jsonDevSendTree, DEVSEND, jsonbuf);
 	normal_replace(jsonbuf,"\n","");
 	strcat(jsonbuf,"\n");
 	return jsonbuf;
@@ -301,7 +376,7 @@ char* ICACHE_FLASH_ATTR
 getAppResponse(void)
 {
     os_memset(jsonbuf, 0, LENGTH);      //��ʼ���ַ���
-	json_ws_send((struct jsontree_value *)&jsonAppRespTree, "appResp", jsonbuf);
+	json_ws_send((struct jsontree_value *)&jsonAppRespTree, APPRESP, jsonbuf);
 	normal_replace(jsonbuf,"\n","");
 	strcat(jsonbuf,"\n");
 	return jsonbuf;
@@ -311,7 +386,7 @@ char* ICACHE_FLASH_ATTR
 getReportDevInfo(void)
 {
     os_memset(jsonbuf, 0, LENGTH);      //��ʼ���ַ���
-	json_ws_send((struct jsontree_value *)&jsonReportDevInfoTree, "reportDevInfo", jsonbuf);
+	json_ws_send((struct jsontree_value *)&jsonReportDevInfoTree, REPORTDEVINFO, jsonbuf);
 	normal_replace(jsonbuf,"\n","");
 	strcat(jsonbuf,"\n");
 	return jsonbuf;
@@ -322,7 +397,7 @@ char* ICACHE_FLASH_ATTR
 getLogin(void)
 {
     os_memset(jsonbuf, 0, LENGTH);      //��ʼ���ַ���
-	json_ws_send((struct jsontree_value *)&jsonLoginTree, "Login", jsonbuf);
+	json_ws_send((struct jsontree_value *)&jsonLoginTree, LOGIN, jsonbuf);
 	normal_replace(jsonbuf,"\n","");
 	strcat(jsonbuf,"\n");
 	return jsonbuf;
@@ -332,7 +407,7 @@ char* ICACHE_FLASH_ATTR
 getHeartBeat(void)
 {
     os_memset(jsonbuf, 0, LENGTH);      //��ʼ���ַ���
-	json_ws_send((struct jsontree_value *)&jsonHeartbeatTree, "HeartBeat", jsonbuf);
+	json_ws_send((struct jsontree_value *)&jsonHeartbeatTree, HEARTBEAT, jsonbuf);
 	normal_replace(jsonbuf,"\n","");
 	strcat(jsonbuf,"\n");
 	return jsonbuf;

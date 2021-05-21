@@ -1,7 +1,7 @@
 /*
  * my_http.c
  *
- *  Created on: 2015Äê7ÔÂ24ÈÕ
+ *  Created on: 2015ï¿½ï¿½7ï¿½ï¿½24ï¿½ï¿½
  *      Author: Administrator
  */
 #include "my_http.h"
@@ -57,10 +57,10 @@ void ICACHE_FLASH_ATTR HttpReadFile(char *URL,char *method,char *postdata){
 	}else{
 		os_sprintf(buffer,POST,filename,strlen(postdata),host,postdata);
 	}
-	//ÓÃÀ´½âÎöÓòÃûµÃµ½IP£¬Èç¹ûÊÇ±¾µØip¾ÍÖ±½ÓÖ´ĞĞÏÂÃæ´úÂë
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ãµï¿½IPï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç±ï¿½ï¿½ï¿½ipï¿½ï¿½Ö±ï¿½ï¿½Ö´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //	espconn_gethostbyname(&user_tcp2_conn,host, &addr,
 //	user_esp_dns_found);
-	const char remote_ip[4]={192,168,3,140};//hekr·şÎñÆ÷
+	const char remote_ip[4]={192,168,3,140};//hekrï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	wifi_get_ip_info(STATION_IF,&info);
 	my_station2_init((struct ip_addr *)remote_ip,&info.ip,port);
 }

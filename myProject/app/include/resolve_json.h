@@ -1,7 +1,7 @@
 /*
  * resolve_json.h
  *
- *  Created on: 2017Äê5ÔÂ31ÈÕ
+ *  Created on: 2017ï¿½ï¿½5ï¿½ï¿½31ï¿½ï¿½
  *      Author: gc-0001
  */
 
@@ -21,6 +21,7 @@ extern char binVer[32];
 extern char recvtcpAppImei[80];
 extern char recvtcpAppRaw[64];
 extern uint32 length_of_bin;
+extern char* ICACHE_FLASH_ATTR getDevSendTree(void);
 extern char* ICACHE_FLASH_ATTR getLogin(void);
 extern char* ICACHE_FLASH_ATTR getAppResponse(void);
 extern char* ICACHE_FLASH_ATTR getHeartBeat(void);

@@ -1,10 +1,10 @@
 #include "transparent_transmission.h"
 UDP_DATA_STATUS    udpDataStatus = SEND_TCP_UDP_IDLE;
-uint8 data1; //ÓÐÐ§Êý¾Ý1
-uint8 data2; //ÓÐÐ§Êý¾Ý2
-sc_status wifi_mode;  //WiFiÄ£¿éµÄ¹¤×÷·½Ê½£¬0´ú±íÕý³£Ä£Ê½£¬·Ç0´ú±íÅäÍøÄ£Ê½ÖÐ
-uint8 wifi_connect_status;  //WIFIÄ£¿éµÄÁ´½Ó×´Ì¬;
-char length_data[200];  //´®¿ÚµÄÊý¾Ý³¤¶È
+uint8 data1; //ï¿½ï¿½Ð§ï¿½ï¿½ï¿½ï¿½1
+uint8 data2; //ï¿½ï¿½Ð§ï¿½ï¿½ï¿½ï¿½2
+sc_status wifi_mode;  //WiFiÄ£ï¿½ï¿½Ä¹ï¿½ï¿½ï¿½ï¿½ï¿½Ê½ï¿½ï¿½0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£Ê½ï¿½ï¿½ï¿½ï¿½0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£Ê½ï¿½ï¿½
+uint8 wifi_connect_status;  //WIFIÄ£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×´Ì¬;
+char length_data[200];  //ï¿½ï¿½ï¿½Úµï¿½ï¿½ï¿½ï¿½Ý³ï¿½ï¿½ï¿½
 
 /******************************************************************************
 * FunctionName : DeviceToWifi
@@ -25,10 +25,10 @@ void deviceToWifi(uint8 *input,uint8 length){
     uint8 idframe = *(input+3);
     uint8 i = 0;
     if( length == 0 ){
-    	 //os_printf("ÎÞÊý¾Ý");
+    	 //os_printf("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
     	 return;
     }
-    //Êý¾Ý³¬³ö·¶Î§ »òÕßÊý¾Ý²»×ã
+    //ï¿½ï¿½ï¿½Ý³ï¿½ï¿½ï¿½ï¿½ï¿½Î§ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý²ï¿½ï¿½ï¿½
     if( length<=5 || reallength != length || reallength > MAX_DATA_LENGTH || length > MAX_DATA_LENGTH ){
     	 os_printf("ERR_OUT_BANGDE");
     	 return;
@@ -126,7 +126,7 @@ void deviceToWifi(uint8 *input,uint8 length){
     		 uint8 checksum = calcrc_bytes(_Txbuf,6);
     		 _Txbuf[6] = checksum;
     		 uart0_tx_buffer(_Txbuf,7);
-             system_os_post(0,2,0); //ÊÂ¼þ´«µÝ
+             system_os_post(0,2,0); //ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½
     	  }
     	  break;
       case ERR_FRAME:
@@ -141,7 +141,7 @@ void deviceToWifi(uint8 *input,uint8 length){
 
 /******************************************************************************
 * FunctionName :calcrc_bytes
-* Description  :CRCÐ£Ñé
+* Description  :CRCÐ£ï¿½ï¿½
 * Parameters   : uint8 *p,uint8 len
 
 
@@ -154,12 +154,12 @@ uint8 calcrc_bytes(uint8 *p,uint8 len)
     for(i=0;i<len;i++){
     	crc = crc + *(p+i);
     }
-	return crc;  //Èô×îÖÕ·µ»ØµÄcrcÎª0£¬ÔòÊý¾Ý´«ÊäÕýÈ·
+	return crc;  //ï¿½ï¿½ï¿½ï¿½ï¿½Õ·ï¿½ï¿½Øµï¿½crcÎª0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý´ï¿½ï¿½ï¿½ï¿½ï¿½È·
 }
 
 /******************************************************************************
 * FunctionName :calcrc_bytes
-* Description  :CRCÐ£Ñé
+* Description  :CRCÐ£ï¿½ï¿½
 * Parameters   : uint8 *p,uint8 len
 
 
@@ -172,7 +172,7 @@ void DeviceOperation(uint8 comand){
    case QUERY_STATUS:
 	   break;
    case SMART_CONFIG:
-	   os_printf("½øÈëÅäÍøÄ£Ê½");
+	   os_printf("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£Ê½");
 	   break;
    default:
 	   break;
