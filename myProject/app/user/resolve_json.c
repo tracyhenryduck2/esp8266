@@ -96,7 +96,9 @@ jsonTree_devSend_get(struct jsontree_context *js_ctx)
     	jsontree_write_int(js_ctx,167);
     }else if(os_strncmp(path, "cur", os_strlen("cur"))==0){
     	jsontree_write_int(js_ctx,167);
-    }
+    }else if(os_strncmp(path,"cmdId",os_strlen("cmdId"))==0){
+		jsontree_write_int(js_ctx,1);
+	}
 
 
     return 0;
@@ -300,18 +302,16 @@ JSONTREE_CALLBACK(jsonTree_devSend_get,NULL);
 
 
 JSONTREE_OBJECT(jsonObject2,
-                JSONTREE_PAIR("vol", &jsonAppCallback),
-		         JSONTREE_PAIR("cur", &jsonAppCallback));
+                JSONTREE_PAIR("cmdId",&jsondevSendCallback),
+                JSONTREE_PAIR("vol", &jsondevSendCallback),
+		         JSONTREE_PAIR("cur", &jsondevSendCallback));
 JSONTREE_OBJECT(jsonADevSendTrees2,
-                JSONTREE_PAIR("devTid", &jsonAppCallback),
-		         JSONTREE_PAIR("ctrlKey", &jsonAppCallback),
-                JSONTREE_PAIR("appTid", &jsonAppCallback),
+                JSONTREE_PAIR("devTid", &jsondevSendCallback),
+                JSONTREE_PAIR("appTid", &jsondevSendCallback),
 				JSONTREE_PAIR("data", &jsonObject2));
 JSONTREE_OBJECT(jsonDevSendTrees,
-                JSONTREE_PAIR("msgId", &jsonAppCallback),
-                JSONTREE_PAIR("action", &jsonAppCallback),
-                JSONTREE_PAIR("code", &jsonAppCallback),
-                JSONTREE_PAIR("desc", &jsonAppCallback),
+                JSONTREE_PAIR("msgId", &jsondevSendCallback),
+                JSONTREE_PAIR("action", &jsondevSendCallback),
 				JSONTREE_PAIR("params", &jsonADevSendTrees2));
 
 JSONTREE_OBJECT(jsonDevSendTree,
